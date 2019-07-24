@@ -1,0 +1,20 @@
+---
+object_type: instance
+version: 1.0
+object:
+  attributes:
+    display_name: 
+    name: SnowRequestNew
+    inherits: 
+    description: 
+  fields:
+  - snow_server:
+      value: spikebhp.service-now.com
+  - snow_user:
+      value: subhh9
+  - snow_password:
+      value: v2:{YAL3fEL6upGtREPJgWrH6g==}
+  - table_name:
+      value: change_request
+  - execute:
+      value: snow_request_new

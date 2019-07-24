@@ -1,0 +1,93 @@
+---
+object_type: class
+version: 1.0
+object:
+  attributes:
+    description: Snow_Methods
+    display_name: 
+    name: Snow_Methods
+    type: 
+    inherits: 
+    visibility: 
+    owner: 
+  schema:
+  - field:
+      aetype: method
+      name: execute
+      display_name: 
+      datatype: string
+      priority: 1
+      owner: 
+      default_value: snow_new_cr
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: attribute
+      name: host
+      display_name: 
+      datatype: string
+      priority: 2
+      owner: 
+      default_value: https://spikebhp.service-now.com
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: attribute
+      name: snow_user
+      display_name: 
+      datatype: string
+      priority: 3
+      owner: 
+      default_value: cloudforms.integration
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: attribute
+      name: pwd
+      display_name: 
+      datatype: password
+      priority: 4
+      owner: 
+      default_value: v2:{96agExkml6byjT274WuSWAN9Y95IKmWOLPZqxmzcMzA=}
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 

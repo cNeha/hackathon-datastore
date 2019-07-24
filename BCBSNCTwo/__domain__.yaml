@@ -1,0 +1,14 @@
+---
+object_type: domain
+version: 1.0
+object:
+  attributes:
+    name: BCBSNCTwo
+    description: Service Now with the add_disk check box method and all the methods
+      for dropdowniing the templates and others
+    display_name: 
+    priority: 9
+    enabled: false
+    tenant_id: 10000000000001
+    source: user
+    top_level_namespace: 

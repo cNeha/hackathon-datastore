@@ -1,0 +1,41 @@
+---
+object_type: method
+version: 1.0
+object:
+  attributes:
+    name: template_expression
+    display_name: 
+    description: 
+    scope: instance
+    language: ruby
+    location: expression
+    data: |
+      ---
+      :db: Vm
+      :expression:
+        "=":
+          field: Vm-template
+          value: 'true'
+        :token: 1
+    options: {}
+  inputs:
+  - field:
+      aetype: 
+      name: arg1
+      display_name: 
+      datatype: 
+      priority: 1
+      owner: 
+      default_value: "${/#dialog_environment.first.name}"
+      substitute: false
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 

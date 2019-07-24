@@ -1,0 +1,14 @@
+---
+object_type: method
+version: 1.0
+object:
+  attributes:
+    name: get_application_snow
+    display_name: get_application_snow
+    description: 
+    scope: instance
+    language: ruby
+    location: playbook
+    data: 
+    options: {}
+  inputs: []

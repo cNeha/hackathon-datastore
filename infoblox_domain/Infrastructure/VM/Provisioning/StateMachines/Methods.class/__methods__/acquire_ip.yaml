@@ -1,0 +1,163 @@
+---
+object_type: method
+version: 1.0
+object:
+  attributes:
+    name: acquire_ip
+    display_name: ''
+    description: 
+    scope: instance
+    language: ruby
+    location: playbook
+    data: 
+    options:
+      :repository_id: '10000000000008'
+      :playbook_id: '10000000000085'
+      :credential_id: '10000000000006'
+      :vault_credential_id: ''
+      :verbosity: '0'
+      :execution_ttl: ''
+      :hosts: localhost
+      :log_output: on_error
+      :become_enabled: false
+  inputs:
+  - field:
+      aetype: 
+      name: miq_provision_id
+      display_name: 
+      datatype: string
+      priority: 0
+      owner: 
+      default_value: "${/#miq_provision.id}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: miq_provision_request_id
+      display_name: 
+      datatype: string
+      priority: 1
+      owner: 
+      default_value: "${/#miq_provision.miq_request.id}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: manageiq_validate_certs
+      display_name: 
+      datatype: boolean
+      priority: 2
+      owner: 
+      default_value: 'false'
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: cidr
+      display_name: 
+      datatype: string
+      priority: 3
+      owner: 
+      default_value: "${/#miq_provision.get_option(:param_cidr)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: hostname
+      display_name: 
+      datatype: string
+      priority: 4
+      owner: 
+      default_value: "${/#miq_provision.get_option(:param_hostname)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: gateway
+      display_name: 
+      datatype: string
+      priority: 5
+      owner: 
+      default_value: "${/#miq_provision.get_option(:param_gateway)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: netmask
+      display_name: 
+      datatype: string
+      priority: 6
+      owner: 
+      default_value: "${/#miq_provision.get_option(:param_netmask)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 

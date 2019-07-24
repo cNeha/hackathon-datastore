@@ -1,0 +1,67 @@
+---
+object_type: instance
+version: 1.0
+object:
+  attributes:
+    display_name: 
+    name: PostTransform
+    inherits: 
+    description: 
+  fields:
+  - State2:
+      value: "/Transformation/Infrastructure/VM/Common/ApplyRightSize"
+      on_entry: /Transformation/TransformationThrottler.Watch ; /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight
+        => 5, description => "Apply Right-Size Recommendation", task_message => "Migrating")
+      on_exit: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 5, description
+        => "Apply Right-Size Recommendation", task_message => "Migrating")
+      on_error: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 5, description
+        => "Apply Right-Size Recommendation", task_message => "Migrating")
+  - State5:
+      value: "/Transformation/Infrastructure/VM/Common/SetDescription"
+      on_entry: /Transformation/TransformationThrottler.Watch ; /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight
+        => 5, description => "Update description of VM", task_message => "Migrating")
+      on_exit: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 5, description
+        => "Update description of VM", task_message => "Migrating")
+      on_error: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 5, description
+        => "Update description of VM", task_message => "Migrating")
+  - State8:
+      value: "/Transformation/Infrastructure/VM/Common/PowerOn"
+      on_entry: /Transformation/TransformationThrottler.Watch ; /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight
+        => 5, description => "Power-on VM", task_message => "Migrating")
+      on_exit: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 5, description
+        => "Power-on VM", task_message => "Migrating")
+      on_error: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 5, description
+        => "Power-on VM", task_message => "Migrating")
+  - State11:
+      value: "/Transformation/Infrastructure/VM/Common/CheckPoweredOn"
+      on_entry: /Transformation/TransformationThrottler.Watch ; /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight
+        => 40, description => "Power-on VM", task_message => "Migrating")
+      on_exit: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 40, description
+        => "Power-on VM", task_message => "Migrating")
+      on_error: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 35, description
+        => "Power-on VM", task_message => "Migrating")
+      max_retries: '200'
+  - State14:
+      value: "/Transformation/StateMachines/Ansible/TransformationPlaybook?transformation_hook=post"
+      on_entry: /Transformation/TransformationThrottler.Watch ; /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight
+        => 40, description         => "Run post-migration playbook")
+      on_exit: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 40, description         =>
+        "Run post-migration playbook")
+      on_error: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 40, description         =>
+        "Run post-migration playbook")
+  - State17:
+      value: "/Transformation/Infrastructure/VM/Common/RestoreVmAttributes"
+      on_entry: /Transformation/TransformationThrottler.Watch ; /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight
+        => 5, description => "Restore VM Attributes", task_message => "Migrating")
+      on_exit: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 5, description
+        => "Restore VM Attributes", task_message => "Migrating")
+      on_error: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 5, description
+        => "Restore VM Attributes", task_message => "Migrating")
+  - State20:
+      value: "/Transformation/Common/SetMigrated"
+      on_entry: /Transformation/TransformationThrottler.Watch ; /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight
+        => 5, description => "Mark source as migrated", task_message => "Migrating")
+      on_exit: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 5, description
+        => "Mark source as migrated", task_message => "Migrating")
+      on_error: /System/CommonMethods/MiqAe.WeightedUpdateStatus(weight => 5, description
+        => "Mark source as migrated", task_message => "Migrating")

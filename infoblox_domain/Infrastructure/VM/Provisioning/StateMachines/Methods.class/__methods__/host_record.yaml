@@ -1,0 +1,83 @@
+---
+object_type: method
+version: 1.0
+object:
+  attributes:
+    name: host_record
+    display_name: ''
+    description: 
+    scope: instance
+    language: ruby
+    location: playbook
+    data: 
+    options:
+      :repository_id: '10000000000008'
+      :playbook_id: '10000000000088'
+      :credential_id: '10000000000006'
+      :vault_credential_id: ''
+      :verbosity: '0'
+      :execution_ttl: ''
+      :hosts: localhost
+      :log_output: on_error
+      :become_enabled: false
+  inputs:
+  - field:
+      aetype: 
+      name: manageiq_validate_certs
+      display_name: 
+      datatype: boolean
+      priority: 0
+      owner: 
+      default_value: 'false'
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: hostname
+      display_name: 
+      datatype: string
+      priority: 1
+      owner: 
+      default_value: "${/#miq_provision.get_option(:param_hostname)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: zone
+      display_name: 
+      datatype: string
+      priority: 2
+      owner: 
+      default_value: "${/#miq_provision.get_option(:param_zone)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 

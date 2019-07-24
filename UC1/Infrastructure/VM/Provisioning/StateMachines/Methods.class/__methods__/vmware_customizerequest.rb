@@ -1,0 +1,244 @@
+#
+# Description: This method is used to Customize the Provisioning Request
+# Customization mapping for VMware and VMWare PXE provisioning
+#
+
+def log(level, msg, update_message = false)
+  $evm.log(level, "#{msg}")
+  $evm.root['miq_provision'].message = "#{@method} - #{msg}" if $evm.root['miq_provision'] && update_message
+end
+
+def set_customspec(prov, spec)
+  prov.set_customization_spec(spec, true) rescue nil
+  log(:info, "Provisioning object updated {:sysprep_custom_spec => #{prov.get_option(:sysprep_custom_spec).inspect rescue nil}}")
+  log(:info, "Provisioning object updated {:sysprep_spec_override => #{prov.get_option(:sysprep_spec_override)}}")
+end
+
+# process_vmware
+def process_vmware(mapping, prov, template, product, provider)
+# if prov.get_option(:sysprep_custom_spec) || product.include?("other") || prov.provision_type.include?("clone_to_template")
+  if product.include?("other") || prov.provision_type.include?("clone_to_template")
+    mapping = 0
+  end
+
+  case mapping
+
+  when 0
+  # Skip mapping
+
+  when 1
+  # Automatic customization specification mapping if template is RHEL,Suse or Windows
+    if product.include?("red hat") || product.include?("suse") || product.include?("windows")
+      spec = prov.vm_template.name # to match the template name
+      set_customspec(prov, spec)
+
+      # Set linux hostname stuff here
+      prov.set_option(:linux_host_name, prov.get_option(:vm_target_name))
+      log(:info, "Provisioning object updated {:linux_host_name => #{prov.get_option(:linux_host_name)}}")
+      prov.set_option(:vm_target_hostname, prov.get_option(:vm_target_name))
+      log(:info, "Provisioning object updated {:hostname => #{prov.get_option(:vm_target_hostname)}}")
+    end
+
+  when 2
+    # Use this option to use a combination of product name and bitness to select your customization specification
+    spec = nil # unknown type
+
+    if product.include?("2003")
+      spec = "W2K3R2-Entx64"  # Windows Server 2003
+    elsif product.include?("2008")
+      spec = "vmware_windows" # Windows Server 2008
+    elsif product.include?("windows 7")
+      spec = "vmware_windows" # Windows7
+    elsif product.include?("suse")
+      spec = "vmware_suse" # Suse
+    elsif product.include?("red hat")
+      spec = "vmware_rhel" # RHEL
+    end
+    log(:info, "VMware Customization Specification: #{spec}")
+
+    # Set values in provisioning object
+    set_customspec(prov, spec) unless spec.nil?
+  when 3
+    #
+    # Enter your own VMware custom mapping here
+  else
+  # Skip mapping
+  end # end case
+end # end process_vmware
+
+# process_vmware_pxe
+def process_vmware_pxe(mapping, prov, template, product, provider)
+  case mapping
+
+  when 0
+  # No mapping
+
+  when 1
+    if product.include?("windows")
+      # find the windows image that matches the template name if a PXE Image was NOT chosen in the dialog
+      if prov.get_option(:pxe_image_id).nil?
+
+        log(:info, "Inspecting Eligible Windows Images: #{prov.eligible_windows_images.inspect rescue nil}")
+        pxe_image = prov.eligible_windows_images.detect { |pi| pi.name.casecmp(template.name) == 0 }
+        if pxe_image.nil?
+          log(:error, "Failed to find matching PXE Image", true)
+          raise
+        else
+          log(:info, "Found matching Windows PXE Image ID: #{pxe_image.id} Name: #{pxe_image.name} Description: #{pxe_image.description}")
+        end
+        prov.set_windows_image(pxe_image)
+        log(:info, "Provisioning object updated {:pxe_image_id => #{prov.get_option(:pxe_image_id).inspect}}")
+      end
+      # Find the first customization template that matches the template name if none was chosen in the dialog
+      if prov.get_option(:customization_template_id).nil?
+        log(:info, "Inspecting Eligible Customization Templates: #{prov.eligible_customization_templates.inspect rescue nil}")
+        cust_temp = prov.eligible_customization_templates.detect { |ct| ct.name.casecmp(template.name) == 0 }
+        if cust_temp.nil?
+          log(:error, "Failed to find matching PXE Image", true)
+          raise
+        end
+        log(:info, "Found mathcing Windows Customization Template ID: #{cust_temp.id} Name: #{cust_temp.name} Description: #{cust_temp.description}")
+        prov.set_customization_template(cust_temp)
+        log(:info, "Provisioning object updated {:customization_template_id => #{prov.get_option(:customization_template_id).inspect}}")
+      end
+    else
+      # find the first PXE Image that matches the template name if NOT chosen in the dialog
+      if prov.get_option(:pxe_image_id).nil?
+        pxe_image = prov.eligible_pxe_images.detect { |pi| pi.name.casecmp(template.name) == 0 }
+        log(:info, "Found Linux PXE Image ID: #{pxe_image.id}  Name: #{pxe_image.name} Description: #{pxe_image.description}")
+        prov.set_pxe_image(pxe_image)
+        log(:info, "Provisioning object updated {:pxe_image_id => #{prov.get_option(:pxe_image_id).inspect}}")
+      end
+      # Find the first Customization Template that matches the template name if NOT chosen in the dialog
+      if prov.get_option(:customization_template_id).nil?
+        cust_temp = prov.eligible_customization_templates.detect { |ct| ct.name.casecmp(template.name) == 0 }
+        log(:info, "Found Customization Template ID: #{cust_temp.id} Name: #{cust_temp.name} Description: #{cust_temp.description}")
+        prov.set_customization_template(cust_temp)
+        log(:info, "Provisioning object updated {:customization_template_id => #{prov.get_option(:customization_template_id).inspect}}")
+      end
+    end
+  when 3
+  #
+  # Enter your own VMware PXE custom mapping here
+  else
+  # Skip mapping
+  end # end case
+end # end process_vmware_pxe
+
+# Get provisioning object
+prov = $evm.root["miq_provision"]
+
+log(:info, "Provision:<#{prov.id}> Request:<#{prov.miq_provision_request.id}> Type:<#{prov.type}>")
+
+template = prov.vm_template
+provider = template.ext_management_system
+product  = template.operating_system['product_name'].downcase rescue nil
+log(:info, "Template: #{template.name} Provider: #{provider.name} Vendor: #{template.vendor} Product: #{product}")
+
+# Build case statement to determine which type of processing is required
+case prov.type
+
+when 'ManageIQ::Providers::Vmware::InfraManager::Provision'
+##########################################################
+# VMware Customization Specification Mapping
+#
+# Possible values:
+#   0 - (Default No Mapping) This option is automatically chosen if it finds a customization
+#   specification mapping chosen from the dialog
+#
+#   1 - CFME will look for a customization specification with
+#   the exact name as the template name
+#
+#   2 - Use this option to use a combination of product name and bitness to
+#   select your customization specification
+#
+#   3 - Include your own custom mapping logic here
+##########################################################
+  mapping = 0
+  process_vmware(mapping, prov, template, product, provider)
+
+when 'ManageIQ::Providers::Vmware::InfraManager::ProvisionViaPxe'
+##########################################################
+# VMware PXE Customization Specification Mapping
+#
+# Possible values:
+#   0 - (DEFAULT No Mapping) This option skips the mapping of pxe images and customization templates
+#
+#   1 - CFME will look for a pxe image and a customization template with
+#   the exact name as the template name if none were chosen from the provisioning dialog
+#
+#   2 - Include your own custom mapping logic here
+##########################################################
+  mapping = 0
+  process_vmware_pxe(mapping, prov, template, product, provider)
+
+else
+  log(:info, "Provisioning Type: #{prov.type} does not match, skipping processing")
+end
+
+#################################################################
+# BHP Customisations                                            #
+#################################################################
+
+# Set flavour size
+log(:info, "BHP: About to set the flavour")
+myflavour = prov.get_option(:dialog_flavour)
+log(:info, "BHP: Flavor is #{myflavour}")
+if myflavour == "small"
+  $evm.log(:info, "BHP: Small detected")
+  flavour_socket = 1
+  flavour_cores = 1
+  flavour_memory = 4096
+elsif myflavour == "medium"
+  $evm.log(:info, "BHP: Medium detected")
+  flavour_socket = 1
+  flavour_cores = 2
+  flavour_memory = 32768
+elsif myflavour == "large"
+  $evm.log(:info, "BHP: Large detected")
+  flavour_socket = 1
+  flavour_cores = 4
+  flavour_memory = 65536
+elsif myflavour == "xlarge"
+   $evm.log(:info, "BHP: Extra Large detected")
+  flavour_socket = 2
+  flavour_cores = 4
+  flavour_memory = 98304
+else
+  $evm.log(:info, "BHP: #{myflavour} is an unknown flavour size, setting to small")
+  prov.set_option(:dialog_flavour, "small")
+  prov.set_option(:flavour, "small")
+  flavour_socket == 1
+  flavour_cores == 1
+  flavour_memory = 4096
+end
+
+$evm.log(:info, "BHP: Flavour is set to #{myflavour}. This means there are #{flavour_cores} cores across #{flavour_socket} sockets with #{flavour_memory} MB of RAM")
+prov.set_option(:cores_per_socket, flavour_cores)
+prov.set_option(:vm_memory, flavour_memory)
+prov.set_option(:number_of_sockets, flavour_socket)
+$evm.log(:info, "BHP: Flavour has been applied")
+
+# Specify Template and Customization Spec
+log(:info, "BHP: About to set the template")
+os_vendor = prov.get_option(:dialog_param_os)
+log(:info, "BHP: OS Type is #{os_vendor}")
+if os_vendor.include? "Windows"
+  template2use = "Template-vRA-WS2016-STD"
+  customization_spec2use = "Windows2016_Customization_Spec"
+elsif os_vendor.include? "Linux RHEL"
+  template2use = "Template-vRA-RHEL_76"
+  customization_spec2use = "Rhel7u6_customization_Spec"
+end
+
+# Set the template
+templateid = $evm.vmdb(:miq_template).find_by(:name => template2use).id
+$evm.log(:info, "BHP: Deploying from template: #{template2use}")
+prov.set_option(:src_vm_id, [templateid, template2use])
+$evm.log(:info, "BHP: template is set to #{template2use}")
+
+# Set the customization spec
+$evm.log(:info, "BHP: Using Customization Spec: #{customization_spec2use}")
+prov.set_customization_spec(customization_spec2use)
+prov.set_option(:sysprep_spec_override, 'true')
+$evm.log(:info, "BHP: customization spec is set to #{customization_spec2use}")

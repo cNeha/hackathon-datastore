@@ -1,0 +1,14 @@
+---
+object_type: instance
+version: 1.0
+object:
+  attributes:
+    display_name: 
+    name: POST_ReportsTemplatesInstances
+    inherits: 
+    description: 
+  fields:
+  - method:
+      value: post
+  - execute:
+      value: post_reports_templates_instances

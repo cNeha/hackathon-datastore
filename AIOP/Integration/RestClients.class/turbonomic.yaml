@@ -1,0 +1,18 @@
+---
+object_type: instance
+version: 1.0
+object:
+  attributes:
+    display_name: 
+    name: Turbonomic
+    inherits: 
+    description: 
+  fields:
+  - server_url:
+      value: https://hou0dtur01.ent.bhpbilliton.net/vmturbo/rest
+  - ws_username:
+      value: administrator
+  - ws_password:
+      value: v2:{fPMuScz2Io3pKWbqHE/VXg==}
+  - execute:
+      value: turbonomic

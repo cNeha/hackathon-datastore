@@ -1,0 +1,13 @@
+---
+object_type: method
+version: 1.0
+object:
+  attributes:
+    name: snow_sys_user1
+    display_name: 
+    description: 
+    scope: instance
+    language: ruby
+    location: inline
+    options: {}
+  inputs: []

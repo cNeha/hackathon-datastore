@@ -1,0 +1,16 @@
+---
+object_type: instance
+version: 1.0
+object:
+  attributes:
+    display_name: 
+    name: DeleteServiceTemplates
+    inherits: 
+    description: 
+  fields:
+  - method:
+      value: delete
+  - table_name:
+      value: u_cloudforms_service_templates
+  - execute:
+      value: DeleteServiceTemplates

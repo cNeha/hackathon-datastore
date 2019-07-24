@@ -1,0 +1,64 @@
+---
+object_type: method
+version: 1.0
+object:
+  attributes:
+    name: add_to_elb
+    display_name: ''
+    description: 
+    scope: instance
+    language: ruby
+    location: playbook
+    data: 
+    options:
+      :repository_id: '10000000000009'
+      :playbook_id: '10000000000112'
+      :credential_id: '10000000000006'
+      :vault_credential_id: ''
+      :verbosity: '1'
+      :cloud_credential_id: '10000000000213'
+      :execution_ttl: ''
+      :hosts: localhost
+      :log_output: always
+      :become_enabled: false
+  inputs:
+  - field:
+      aetype: 
+      name: instance_id
+      display_name: 
+      datatype: string
+      priority: 0
+      owner: 
+      default_value: "${/#miq_provision.destination.ems_ref}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: region
+      display_name: 
+      datatype: string
+      priority: 1
+      owner: 
+      default_value: "${/#miq_provision.get_option(:param_region)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 

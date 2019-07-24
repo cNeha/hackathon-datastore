@@ -1,0 +1,31 @@
+---
+object_type: instance
+version: 1.0
+object:
+  attributes:
+    display_name: Provision VM from Template
+    name: template
+    inherits: 
+    description: 
+  fields:
+  - AcquireIPAddress:
+      value: "/Integration/Infoblox/IPAM/Methods/AcquireIp"
+  - Provision:
+      value: "/Infrastructure/VM/Provisioning/StateMachines/Methods/Provision"
+  - CheckProvisioned:
+      value: "/Infrastructure/VM/Provisioning/StateMachines/Methods/CheckProvisioned"
+  - Networking:
+      value: "/CustomMethods/BackupNetwork/BackupNetwork/BackupNic"
+      on_error: BackoutDestroyVM
+  - AddTag:
+      value: "/CustomMethods/Tagging/VMTagging/VMTagging"
+      on_error: BackoutDestroyVM
+  - ConfigureDisk:
+      value: "/CustomMethods/AddDisk/AddSecondDisk/AddDisk"
+      on_error: BackoutDestroyVM
+  - PostProvisionPlaybook:
+      on_error: BackoutDestroyVM
+  - RegisterDNS:
+      on_error: BackoutDestroyVM
+  - RegisterAD:
+      on_error: BackoutDestroyVM

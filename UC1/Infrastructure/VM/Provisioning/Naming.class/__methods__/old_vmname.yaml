@@ -1,0 +1,13 @@
+---
+object_type: method
+version: 1.0
+object:
+  attributes:
+    name: old_vmname
+    display_name: old_default
+    description: 
+    scope: instance
+    language: ruby
+    location: inline
+    options: {}
+  inputs: []

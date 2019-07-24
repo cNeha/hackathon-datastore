@@ -1,0 +1,24 @@
+---
+object_type: instance
+version: 1.0
+object:
+  attributes:
+    display_name: 
+    name: CatalogItemInitialization_Tenant
+    inherits: 
+    description: 
+  fields:
+  - cfme_user:
+      value: "-SVC-CF_CF"
+  - master_ip:
+      value: 10.216.41.11
+  - cfme_password:
+      value: v2:{AEW2HNYkp7m1bNDX4ORI8mHrQK+t2JO7DpjR0zvT0nA=}
+  - ad_ip:
+      value: 10.216.72.11
+  - ad_user:
+      value: "-SVC-CF-ALL_AD"
+  - ad_password:
+      value: v2:{Cah8EDhCLr8jCsMFR0qKzVwU7CgqYrt8twrDns/ViTE=}
+  - execute:
+      value: create_tenant

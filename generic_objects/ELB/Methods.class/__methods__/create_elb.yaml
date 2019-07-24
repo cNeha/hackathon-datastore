@@ -1,0 +1,104 @@
+---
+object_type: method
+version: 1.0
+object:
+  attributes:
+    name: create_elb
+    display_name: ''
+    description: 
+    scope: instance
+    language: ruby
+    location: playbook
+    data: 
+    options:
+      :repository_id: '10000000000009'
+      :playbook_id: '10000000000110'
+      :credential_id: '10000000000006'
+      :vault_credential_id: ''
+      :verbosity: '3'
+      :cloud_credential_id: '10000000000213'
+      :execution_ttl: ''
+      :hosts: localhost
+      :log_output: always
+      :become_enabled: false
+  inputs:
+  - field:
+      aetype: 
+      name: elb_name
+      display_name: 
+      datatype: string
+      priority: 0
+      owner: 
+      default_value: "${/#miq_provision.get_option(:new_elb_name)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: elb_port
+      display_name: 
+      datatype: string
+      priority: 1
+      owner: 
+      default_value: "${/#miq_provision.get_option(:elb_port)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: region
+      display_name: 
+      datatype: string
+      priority: 2
+      owner: 
+      default_value: "${/#miq_provision.get_option(:param_region)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: 
+      name: availability_zone
+      display_name: 
+      datatype: string
+      priority: 3
+      owner: 
+      default_value: "${/#miq_provision.get_option(:param_az)}"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 

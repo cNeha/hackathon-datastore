@@ -1,0 +1,12 @@
+---
+object_type: instance
+version: 1.0
+object:
+  attributes:
+    display_name: 
+    name: launch_noip
+    inherits: 
+    description: 
+  fields:
+  - WaitForIP:
+      value: METHOD::wait_for_noip

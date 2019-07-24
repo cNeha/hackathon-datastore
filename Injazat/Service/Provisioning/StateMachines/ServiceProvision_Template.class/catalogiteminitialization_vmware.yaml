@@ -1,0 +1,24 @@
+---
+object_type: instance
+version: 1.0
+object:
+  attributes:
+    display_name: 
+    name: CatalogItemInitialization_VMware
+    inherits: 
+    description: 
+  fields:
+  - sequencer:
+      value: "/Service/Provisioning/StateMachines/Methods/GroupSequenceCheck"
+  - pre1:
+      value: "/Service/Provisioning/StateMachines/Methods/DialogParser"
+  - pre2:
+      value: "/Service/Provisioning/StateMachines/Methods/CatalogItemInitialization_VMware"
+  - checkprovisioned:
+      value: "/Service/Provisioning/StateMachines/Methods/ServiceCatalogCheckProvisioned"
+  - post1:
+      value: "/Service/Provisioning/StateMachines/Methods/SetServiceName"
+  - post2:
+      value: "/Service/Provisioning/StateMachines/Methods/SetAntiAffinityVMware"
+  - post3:
+      value: "/Service/Provisioning/StateMachines/Methods/SetOwnership"
